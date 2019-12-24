@@ -1,0 +1,4 @@
+.env
+./routes/fcctesting.js
+test-runner.js
+/node_modules
