@@ -9,7 +9,13 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    var result = input.match(/(\d+)((?:\.\d+)?)((?:\/\d+)?)/gi).join('');
+    var result = input.match(/(\d+)((?:\.\d+)?)((?:\.\/\d+)?)((?:\/\d+)?)/gi).join('');
+
+    if(result.match('/') != null) {
+      var splitResult = result.split('/')
+      result = Number(splitResult[0]) / Number(splitResult[1]);
+    }
+    console.log("getNum : " + result);
     return result;
   };
   
@@ -22,15 +28,27 @@ function ConvertHandler() {
     var result;
     switch(initUnit){
       case 'gal':
-        result = 'L'
+        result = 'liters'
         return result;
 
       case 'lbs':
-        result = 'kg'
+        result = 'kilograms'
         return result;
 
       case 'mi':
-        result = 'km'
+        result = 'kilometers'
+        return result;
+
+      case 'L':
+        result = 'gallons'
+        return result;
+
+      case 'kg':
+        result = 'lbs'
+        return result;
+
+      case 'km':
+        result = 'miles'
         return result;
 
       default:
@@ -48,19 +66,31 @@ function ConvertHandler() {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
+    const kmToMi = 0.621371;
+    const kgToLbs = 2.20462;
+    const lToGal = 0.264172;
     var result;
 
     switch(this.getReturnUnit(initUnit)) {
-      case 'L':
-        result = initNum * galToL
+      case 'liters':
+        result = (initNum) * galToL
         return result
 
-      case 'kg':
-        result = initNum * lbsToKg
+      case 'kilograms':
+        result = (initNum) * lbsToKg
         return result
       
-      case 'mi':
-        result = initNum * miToKm
+      case 'kilometers':
+        result = (initNum) * miToKm
+        return result
+      case 'gallons':
+        result = (initNum) * lToGal;
+        return result
+      case 'lbs':
+        result = (initNum) * kgToLbs;
+        return result
+      case 'miles':
+        result = (initNum) * kmToMi;
         return result
       default:
         result = 'invalid unit'
@@ -69,8 +99,13 @@ function ConvertHandler() {
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    var result;
+    returnNum = parseFloat(returnNum).toFixed(5);
     
+    var result = {'initNum' : initNum, 'initUnit': initUnit, 
+    'returnNum': returnNum, 'returnUnit': returnUnit,
+    'string' : `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`}
+
+    console.log(result);
     return result;
   };
   
