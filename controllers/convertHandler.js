@@ -9,14 +9,24 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    var result = input.match(/(\d+)((?:\.\d+)?)((?:\.\/\d+)?)((?:\/\d+)?)/gi).join('');
 
-    if(result.match('/') != null) {
+    var result;
+
+    console.log("Input :" + input);
+    if(input.match(/\//gi) == null) {
+
+      result = input.match(/(\d+)((?:\.\d+)?)((?:\.\/\d+)?)((?:\/\d+)?)/gi).join('');
+
+    } else if(input.match(/\//gi).length == 1) {
       var splitResult = result.split('/')
       result = Number(splitResult[0]) / Number(splitResult[1]);
+
+    } else {
+      result = 'invalid result';
     }
-    console.log("getNum : " + result);
-    return result;
+
+      console.log("Final Result: " + result);
+      return result;
   };
   
   this.getUnit = function(input) {
@@ -105,7 +115,7 @@ function ConvertHandler() {
     'returnNum': returnNum, 'returnUnit': returnUnit,
     'string' : `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`}
 
-    console.log(result);
+    myregex = /\//gi
     return result;
   };
   
