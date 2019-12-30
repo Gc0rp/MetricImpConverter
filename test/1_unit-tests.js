@@ -44,7 +44,6 @@ suite('Unit Tests', function(){
       var input = '3.5/4/5';
       assert.equal(convertHandler.getNum(input), 'invalid input');
       done();
-      //done();
     });
     
     test('No Numerical Input', function(done) {
@@ -60,14 +59,15 @@ suite('Unit Tests', function(){
     test('For Each Valid Unit Inputs', function(done) {
       var input = ['gal','l','mi','km','lbs','kg','GAL','L','MI','KM','LBS','KG'];
       input.forEach(function(ele) {
-        //assert
+        assert.equal(convertHandler.getUnit(ele), ele.toLowerCase());
       });
       done();
     });
     
     test('Unknown Unit Input', function(done) {
-      
-      //done();
+      var input = "testinginvalidinput";
+      assert.equal(convertHandler.getUnit(input), 'invalid unit')
+      done();
     });  
     
   });
@@ -104,7 +104,9 @@ suite('Unit Tests', function(){
     });
     
     test('L to Gal', function(done) {
-      
+      var input = [4, 'l'];
+      var expected = 1.05669;
+      assert.approximately(convertHandler.convert(input[0], input[1]), expected, 0.1);
       //done();
     });
     

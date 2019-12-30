@@ -32,6 +32,13 @@ function ConvertHandler() {
   
   this.getUnit = function(input) {
     var result = input.match(/[a-z]/gi).join('');
+    result = result.toLowerCase();
+
+    var units = ['gal', 'l', 'lbs', 'kg', 'mi', 'km'];
+
+    if(units.indexOf(result) == -1) {
+      return 'invalid unit';
+    }
     return result;
   };
   
@@ -39,19 +46,19 @@ function ConvertHandler() {
     var result;
     switch(initUnit){
       case 'gal':
-        result = 'liters'
+        result = 'l'
         return result;
 
       case 'lbs':
-        result = 'kilograms'
+        result = 'kg'
         return result;
 
       case 'mi':
-        result = 'kilometers'
+        result = 'km'
         return result;
 
-      case 'L':
-        result = 'gallons'
+      case 'l':
+        result = 'gal'
         return result;
 
       case 'kg':
@@ -59,7 +66,7 @@ function ConvertHandler() {
         return result;
 
       case 'km':
-        result = 'miles'
+        result = 'mi'
         return result;
 
       default:
@@ -83,24 +90,24 @@ function ConvertHandler() {
     var result;
 
     switch(this.getReturnUnit(initUnit)) {
-      case 'liters':
+      case 'gal':
         result = (initNum) * galToL
         return result
 
-      case 'kilograms':
+      case 'lbs':
         result = (initNum) * lbsToKg
         return result
       
-      case 'kilometers':
+      case 'mi':
         result = (initNum) * miToKm
         return result
-      case 'gallons':
+      case 'l':
         result = (initNum) * lToGal;
         return result
-      case 'lbs':
+      case 'kg':
         result = (initNum) * kgToLbs;
         return result
-      case 'miles':
+      case 'km':
         result = (initNum) * kmToMi;
         return result
       default:
