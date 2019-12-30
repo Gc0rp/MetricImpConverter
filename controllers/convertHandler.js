@@ -11,18 +11,19 @@ function ConvertHandler() {
   this.getNum = function(input) {
 
     var result;
-
-    console.log("Input :" + input);
+    console.log(input==null);
     if(input.match(/\//gi) == null) {
-
-      result = input.match(/(\d+)((?:\.\d+)?)((?:\.\/\d+)?)((?:\/\d+)?)/gi).join('');
+      console.log("Found no /");
+      result = input.match(/(\d+)((?:\.\d+)?)((?:\/\d+\.\d+)?)/gi).join('');
 
     } else if(input.match(/\//gi).length == 1) {
-      var splitResult = result.split('/')
+      console.log("Found / ");
+      var splitResult = input.match(/(\d+)((?:\.\d+)?)((?:\/\d+\.\d+)?)((?:\/\d+)?)/gi).join('').split('/');
+      console.log("   " + typeof(splitResult) + " : " + splitResult);
       result = Number(splitResult[0]) / Number(splitResult[1]);
 
     } else {
-      result = 'invalid result';
+      result = 'invalid input';
     }
 
       console.log("Final Result: " + result);

@@ -48,7 +48,8 @@ suite('Unit Tests', function(){
     });
     
     test('No Numerical Input', function(done) {
-      
+      var input = 'adsfasdf';
+      assert.equal(convertHandler.getNum(input), 'invalid input');
       //done();
     }); 
     
