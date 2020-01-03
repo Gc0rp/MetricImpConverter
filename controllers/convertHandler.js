@@ -11,32 +11,39 @@ function ConvertHandler() {
   this.getNum = function(input) {
 
     var result;
-    console.log(input==null);
-    if(input.match(/\//gi) == null) {
-      console.log("Found no /");
-      result = input.match(/(\d+)((?:\.\d+)?)((?:\/\d+\.\d+)?)/gi).join('');
 
-    } else if(input.match(/\//gi).length == 1) {
-      console.log("Found / ");
-      var splitResult = input.match(/(\d+)((?:\.\d+)?)((?:\/\d+\.\d+)?)((?:\/\d+)?)/gi).join('').split('/');
-      console.log("   " + typeof(splitResult) + " : " + splitResult);
-      result = Number(splitResult[0]) / Number(splitResult[1]);
 
+    var inputNumber = input.slice(0, input.match(/[a-zA-Z]/).index);
+
+    if(inputNumber.match('/') !== null){
+      var splitNumber = inputNumber.split('/');
+      if(splitNumber.length > 2) {
+        result = 'invalid input'; 
+      } else {
+        result = Number(splitNumber[0]) / Number(splitNumber[1]);
+      }
     } else {
-      result = 'invalid input';
+      console.log("Input number : " + inputNumber);
+      if(Number(inputNumber) === NaN || (Number(inputNumber) === 0) ) {
+        result = 'invalid input';
+      } else if(input.length == 0) {
+        result = 1;
+      } else {
+        result = inputNumber;
+      }
     }
+    
 
-      console.log("Final Result: " + result);
-      return result;
+    return result;
   };
   
   this.getUnit = function(input) {
     var result = input.match(/[a-z]/gi).join('');
-    result = result.toLowerCase();
+    temp = result.toLowerCase();
 
     var units = ['gal', 'l', 'lbs', 'kg', 'mi', 'km'];
 
-    if(units.indexOf(result) == -1) {
+    if(units.indexOf(temp) == -1) {
       return 'invalid unit';
     }
     return result;
@@ -77,7 +84,31 @@ function ConvertHandler() {
 
   this.spellOutUnit = function(unit) {
     var result;
-    return result;
+    unit = unit.toLowerCase();
+
+    switch(unit) {
+      case 'gal':
+        result = 'gallons';
+        return result;
+      case 'l':
+        result = 'liters';
+        return result;
+      case 'lbs':
+        result = 'pounds';
+        return result;
+      case 'kg':
+        result = 'kilograms';
+        return result;
+      case 'mi':
+        result = 'miles';
+        return result;
+      case 'km':
+        result = 'kilometers';
+        return result;
+      default:
+        result = 'invalid input';
+        return result;
+    }
   };
   
   this.convert = function(initNum, initUnit) {
@@ -89,26 +120,32 @@ function ConvertHandler() {
     const lToGal = 0.264172;
     var result;
 
-    switch(this.getReturnUnit(initUnit)) {
-      case 'gal':
-        result = (initNum) * galToL
-        return result
+    if(initUnit !== 'invalid unit' && initNum === 'invalid input'){
+      initNum = 1;
+    }
 
-      case 'lbs':
-        result = (initNum) * lbsToKg
-        return result
-      
-      case 'mi':
-        result = (initNum) * miToKm
-        return result
+    switch(this.getReturnUnit(initUnit)) {
+
       case 'l':
-        result = (initNum) * lToGal;
-        return result
+        result = parseFloat( (initNum) * galToL).toFixed(5);
+        return result;
+
       case 'kg':
-        result = (initNum) * kgToLbs;
-        return result
+        result = parseFloat( (initNum) * lbsToKg).toFixed(5);
+        return result;
+      
       case 'km':
-        result = (initNum) * kmToMi;
+        result = parseFloat( (initNum) * miToKm).toFixed(5);
+        return result
+      case 'gal':
+        result = parseFloat( (initNum) * lToGal).toFixed(5);
+        return result
+      case 'lbs':
+
+        result = parseFloat( (initNum) * kgToLbs).toFixed(5);
+        return result
+      case 'mi':
+        result = parseFloat( (initNum) * kmToMi).toFixed(5);
         return result
       default:
         result = 'invalid unit'
@@ -117,13 +154,10 @@ function ConvertHandler() {
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    returnNum = parseFloat(returnNum).toFixed(5);
-    
-    var result = {'initNum' : initNum, 'initUnit': initUnit, 
-    'returnNum': returnNum, 'returnUnit': returnUnit,
-    'string' : `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`}
+    // returnNum = parseFloat(returnNum).toFixed(5);
+  
+    var result = `${initNum} ${initUnit} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`
 
-    myregex = /\//gi
     return result;
   };
   
