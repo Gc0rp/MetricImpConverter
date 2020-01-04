@@ -38,7 +38,8 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
-    var result = input.match(/[a-z]/gi).join('');
+    var result = input.match(/[a-zA-Z]/gi).join('');
+
     temp = result.toLowerCase();
 
     var units = ['gal', 'l', 'lbs', 'kg', 'mi', 'km'];
@@ -127,25 +128,25 @@ function ConvertHandler() {
     switch(this.getReturnUnit(initUnit)) {
 
       case 'l':
-        result = parseFloat( (initNum) * galToL).toFixed(5);
+        result = Number(( (initNum) * galToL).toFixed(5));
         return result;
 
       case 'kg':
-        result = parseFloat( (initNum) * lbsToKg).toFixed(5);
+        result = Number( ( (initNum) * lbsToKg).toFixed(5) );
         return result;
       
       case 'km':
-        result = parseFloat( (initNum) * miToKm).toFixed(5);
+        result = Number( ( (initNum) * miToKm).toFixed(5) );
         return result
       case 'gal':
-        result = parseFloat( (initNum) * lToGal).toFixed(5);
+        result = Number( ( (initNum) * lToGal).toFixed(5) );
         return result
       case 'lbs':
 
-        result = parseFloat( (initNum) * kgToLbs).toFixed(5);
+        result = Number( ( (initNum) * kgToLbs).toFixed(5) );
         return result
       case 'mi':
-        result = parseFloat( (initNum) * kmToMi).toFixed(5);
+        result = Number( ( (initNum) * kmToMi).toFixed(5) );
         return result
       default:
         result = 'invalid unit'
@@ -154,8 +155,11 @@ function ConvertHandler() {
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    // returnNum = parseFloat(returnNum).toFixed(5);
   
+    if(initUnit !== 'invalid unit' && initNum === 'invalid input'){
+      initNum = 1;
+    }
+
     var result = `${initNum} ${initUnit} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`
 
     return result;

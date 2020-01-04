@@ -26,6 +26,7 @@ suite('Functional Tests', function() {
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.equal(res.body.initNum, 10);
+          console.log("res.body.initUnit : " + res.body.initUnit);
           assert.equal(res.body.initUnit, 'L');
           assert.approximately(res.body.returnNum, 2.64172, 0.1);
           assert.equal(res.body.returnUnit, 'gal');
@@ -49,7 +50,8 @@ suite('Functional Tests', function() {
       });
       
       test('Convert 3/7.2/4kg (invalid number)', function(done) {
-        
+        chai.request(server)
+
         //done();
       });  
       
